@@ -32,15 +32,40 @@ Vue.component('wallet-multi-button', WalletMultiButton);
 
 ```vue  
 <template>  
- <div> <wallet-multi-button :wallets="wallets" auto-connect /> </div></template>  
+     <div>
+        <wallet-multi-button :wallets="wallets" auto-connect />
+     </div>
+ </template>  
   
 <script>  
-import {  
- CoinbaseWalletAdapter, GlowWalletAdapter, PhantomWalletAdapter, SlopeWalletAdapter, SolflareWalletAdapter, TorusWalletAdapter} from '@solana/wallet-adapter-wallets'  
+import {
+  CoinbaseWalletAdapter,
+  GlowWalletAdapter,
+  PhantomWalletAdapter,
+  SlopeWalletAdapter,
+  SolflareWalletAdapter,
+  TorusWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
+
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'  
-  import { WalletMultiButton } from "solana-wallets-vue-2";  
-  export default {  
- name: 'component.vue', components: { WalletMultiButton }, data() { return { wallets: [ new CoinbaseWalletAdapter(), new PhantomWalletAdapter(), new GlowWalletAdapter(), new SlopeWalletAdapter(), new SolflareWalletAdapter({ WalletAdapterNetwork.Devnet }), new TorusWalletAdapter() ], } }}  
+import { WalletMultiButton } from "solana-wallets-vue-2";
+
+export default {
+  name: "App",
+  components: { WalletMultiButton },
+  data() {
+    return {
+      wallets: [
+        new CoinbaseWalletAdapter(),
+        new PhantomWalletAdapter(),
+        new GlowWalletAdapter(),
+        new SlopeWalletAdapter(),
+        new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
+        new TorusWalletAdapter(),
+      ],
+    };
+  },
+};   
 </script>  
 ```  
 
@@ -71,7 +96,10 @@ Next, you can access by call **walletStore** in ref:
 ```js  
 ...  
 computed: {  
- publicKey () { return this.$refs.walletConnector.walletStore?.publicKey },}  
+     publicKey () {
+         return this.$refs.walletConnector.walletStore?.publicKey 
+     },
+}  
 ```  
 
 ## `walletStore` references
