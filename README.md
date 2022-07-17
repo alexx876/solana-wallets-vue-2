@@ -25,7 +25,8 @@ You have to set up Solana Wallets Adapters and prop it to the component instance
 #### To register as global component:  
   
 ```js  
-import { WalletMultiButton } from "solana-wallets-vue-2";  
+import { WalletMultiButton } from 'solana-wallets-vue-2';
+import 'solana-wallets-vue-2/styles.css';
 Vue.component('wallet-multi-button', WalletMultiButton);  
 ```  
 #### To use as a local component:
@@ -45,10 +46,11 @@ import {
   SlopeWalletAdapter,
   SolflareWalletAdapter,
   TorusWalletAdapter,
-} from "@solana/wallet-adapter-wallets";
+} from '@solana/wallet-adapter-wallets";
 
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'  
-import { WalletMultiButton } from "solana-wallets-vue-2"
+import { WalletMultiButton } from 'solana-wallets-vue-2"
+import 'solana-wallets-vue-2/styles.css';
 
 export default {
   name: "App",

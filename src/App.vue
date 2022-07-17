@@ -33,7 +33,8 @@ import {
   TorusWalletAdapter
 } from '@solana/wallet-adapter-wallets'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
-import WalletMultiButton from "@/components/WalletMultiButton"
+import WalletMultiButton from '@/components/WalletMultiButton'
+import '/styles.css'
 
 const network = WalletAdapterNetwork.Devnet
 
