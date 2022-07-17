@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "fb15");
+/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -401,107 +401,6 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 /***/ }),
 
-/***/ "24fb":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-// eslint-disable-next-line func-names
-module.exports = function (useSourceMap) {
-  var list = []; // return the list of modules as css string
-
-  list.toString = function toString() {
-    return this.map(function (item) {
-      var content = cssWithMappingToString(item, useSourceMap);
-
-      if (item[2]) {
-        return "@media ".concat(item[2], " {").concat(content, "}");
-      }
-
-      return content;
-    }).join('');
-  }; // import a list of modules into the list
-  // eslint-disable-next-line func-names
-
-
-  list.i = function (modules, mediaQuery, dedupe) {
-    if (typeof modules === 'string') {
-      // eslint-disable-next-line no-param-reassign
-      modules = [[null, modules, '']];
-    }
-
-    var alreadyImportedModules = {};
-
-    if (dedupe) {
-      for (var i = 0; i < this.length; i++) {
-        // eslint-disable-next-line prefer-destructuring
-        var id = this[i][0];
-
-        if (id != null) {
-          alreadyImportedModules[id] = true;
-        }
-      }
-    }
-
-    for (var _i = 0; _i < modules.length; _i++) {
-      var item = [].concat(modules[_i]);
-
-      if (dedupe && alreadyImportedModules[item[0]]) {
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-
-      if (mediaQuery) {
-        if (!item[2]) {
-          item[2] = mediaQuery;
-        } else {
-          item[2] = "".concat(mediaQuery, " and ").concat(item[2]);
-        }
-      }
-
-      list.push(item);
-    }
-  };
-
-  return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-  var content = item[1] || ''; // eslint-disable-next-line prefer-destructuring
-
-  var cssMapping = item[3];
-
-  if (!cssMapping) {
-    return content;
-  }
-
-  if (useSourceMap && typeof btoa === 'function') {
-    var sourceMapping = toComment(cssMapping);
-    var sourceURLs = cssMapping.sources.map(function (source) {
-      return "/*# sourceURL=".concat(cssMapping.sourceRoot || '').concat(source, " */");
-    });
-    return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-  }
-
-  return [content].join('\n');
-} // Adapted from convert-source-map (MIT)
-
-
-function toComment(sourceMap) {
-  // eslint-disable-next-line no-undef
-  var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-  var data = "sourceMappingURL=data:application/json;charset=utf-8;base64,".concat(base64);
-  return "/*# ".concat(data, " */");
-}
-
-/***/ }),
-
 /***/ "2d00":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -598,22 +497,6 @@ module.exports = !fails(function () {
 
 /***/ }),
 
-/***/ "4490":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("e1c6");
-if(content.__esModule) content = content.default;
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("382ce374", content, true, {"sourceMap":false,"shadowMode":false});
-
-/***/ }),
-
 /***/ "44ad":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -701,272 +584,6 @@ module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
     // Chrome 38-40 symbols are not inherited from DOM collections prototypes to instances
     !Symbol.sham && V8_VERSION && V8_VERSION < 41;
 });
-
-
-/***/ }),
-
-/***/ "499e":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "default", function() { return /* binding */ addStylesClient; });
-
-// CONCATENATED MODULE: ./node_modules/vue-style-loader/lib/listToStyles.js
-/**
- * Translates the list format produced by css-loader into something
- * easier to manipulate.
- */
-function listToStyles (parentId, list) {
-  var styles = []
-  var newStyles = {}
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i]
-    var id = item[0]
-    var css = item[1]
-    var media = item[2]
-    var sourceMap = item[3]
-    var part = {
-      id: parentId + ':' + i,
-      css: css,
-      media: media,
-      sourceMap: sourceMap
-    }
-    if (!newStyles[id]) {
-      styles.push(newStyles[id] = { id: id, parts: [part] })
-    } else {
-      newStyles[id].parts.push(part)
-    }
-  }
-  return styles
-}
-
-// CONCATENATED MODULE: ./node_modules/vue-style-loader/lib/addStylesClient.js
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-  Modified by Evan You @yyx990803
-*/
-
-
-
-var hasDocument = typeof document !== 'undefined'
-
-if (typeof DEBUG !== 'undefined' && DEBUG) {
-  if (!hasDocument) {
-    throw new Error(
-    'vue-style-loader cannot be used in a non-browser environment. ' +
-    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
-  ) }
-}
-
-/*
-type StyleObject = {
-  id: number;
-  parts: Array<StyleObjectPart>
-}
-
-type StyleObjectPart = {
-  css: string;
-  media: string;
-  sourceMap: ?string
-}
-*/
-
-var stylesInDom = {/*
-  [id: number]: {
-    id: number,
-    refs: number,
-    parts: Array<(obj?: StyleObjectPart) => void>
-  }
-*/}
-
-var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
-var singletonElement = null
-var singletonCounter = 0
-var isProduction = false
-var noop = function () {}
-var options = null
-var ssrIdKey = 'data-vue-ssr-id'
-
-// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-// tags it will allow on a page
-var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
-
-function addStylesClient (parentId, list, _isProduction, _options) {
-  isProduction = _isProduction
-
-  options = _options || {}
-
-  var styles = listToStyles(parentId, list)
-  addStylesToDom(styles)
-
-  return function update (newList) {
-    var mayRemove = []
-    for (var i = 0; i < styles.length; i++) {
-      var item = styles[i]
-      var domStyle = stylesInDom[item.id]
-      domStyle.refs--
-      mayRemove.push(domStyle)
-    }
-    if (newList) {
-      styles = listToStyles(parentId, newList)
-      addStylesToDom(styles)
-    } else {
-      styles = []
-    }
-    for (var i = 0; i < mayRemove.length; i++) {
-      var domStyle = mayRemove[i]
-      if (domStyle.refs === 0) {
-        for (var j = 0; j < domStyle.parts.length; j++) {
-          domStyle.parts[j]()
-        }
-        delete stylesInDom[domStyle.id]
-      }
-    }
-  }
-}
-
-function addStylesToDom (styles /* Array<StyleObject> */) {
-  for (var i = 0; i < styles.length; i++) {
-    var item = styles[i]
-    var domStyle = stylesInDom[item.id]
-    if (domStyle) {
-      domStyle.refs++
-      for (var j = 0; j < domStyle.parts.length; j++) {
-        domStyle.parts[j](item.parts[j])
-      }
-      for (; j < item.parts.length; j++) {
-        domStyle.parts.push(addStyle(item.parts[j]))
-      }
-      if (domStyle.parts.length > item.parts.length) {
-        domStyle.parts.length = item.parts.length
-      }
-    } else {
-      var parts = []
-      for (var j = 0; j < item.parts.length; j++) {
-        parts.push(addStyle(item.parts[j]))
-      }
-      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
-    }
-  }
-}
-
-function createStyleElement () {
-  var styleElement = document.createElement('style')
-  styleElement.type = 'text/css'
-  head.appendChild(styleElement)
-  return styleElement
-}
-
-function addStyle (obj /* StyleObjectPart */) {
-  var update, remove
-  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
-
-  if (styleElement) {
-    if (isProduction) {
-      // has SSR styles and in production mode.
-      // simply do nothing.
-      return noop
-    } else {
-      // has SSR styles but in dev mode.
-      // for some reason Chrome can't handle source map in server-rendered
-      // style tags - source maps in <style> only works if the style tag is
-      // created and inserted dynamically. So we remove the server rendered
-      // styles and inject new ones.
-      styleElement.parentNode.removeChild(styleElement)
-    }
-  }
-
-  if (isOldIE) {
-    // use singleton mode for IE9.
-    var styleIndex = singletonCounter++
-    styleElement = singletonElement || (singletonElement = createStyleElement())
-    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
-    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
-  } else {
-    // use multi-style-tag mode in all other cases
-    styleElement = createStyleElement()
-    update = applyToTag.bind(null, styleElement)
-    remove = function () {
-      styleElement.parentNode.removeChild(styleElement)
-    }
-  }
-
-  update(obj)
-
-  return function updateStyle (newObj /* StyleObjectPart */) {
-    if (newObj) {
-      if (newObj.css === obj.css &&
-          newObj.media === obj.media &&
-          newObj.sourceMap === obj.sourceMap) {
-        return
-      }
-      update(obj = newObj)
-    } else {
-      remove()
-    }
-  }
-}
-
-var replaceText = (function () {
-  var textStore = []
-
-  return function (index, replacement) {
-    textStore[index] = replacement
-    return textStore.filter(Boolean).join('\n')
-  }
-})()
-
-function applyToSingletonTag (styleElement, index, remove, obj) {
-  var css = remove ? '' : obj.css
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = replaceText(index, css)
-  } else {
-    var cssNode = document.createTextNode(css)
-    var childNodes = styleElement.childNodes
-    if (childNodes[index]) styleElement.removeChild(childNodes[index])
-    if (childNodes.length) {
-      styleElement.insertBefore(cssNode, childNodes[index])
-    } else {
-      styleElement.appendChild(cssNode)
-    }
-  }
-}
-
-function applyToTag (styleElement, obj) {
-  var css = obj.css
-  var media = obj.media
-  var sourceMap = obj.sourceMap
-
-  if (media) {
-    styleElement.setAttribute('media', media)
-  }
-  if (options.ssrId) {
-    styleElement.setAttribute(ssrIdKey, obj.id)
-  }
-
-  if (sourceMap) {
-    // https://developer.chrome.com/devtools/docs/javascript-debugging
-    // this makes source maps inside style tags work properly in Chrome
-    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
-    // http://stackoverflow.com/a/26603875
-    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
-  }
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = css
-  } else {
-    while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild)
-    }
-    styleElement.appendChild(document.createTextNode(css))
-  }
-}
 
 
 /***/ }),
@@ -1615,17 +1232,6 @@ module.exports = DESCRIPTORS && fails(function () {
     writable: false
   }).prototype != 42;
 });
-
-
-/***/ }),
-
-/***/ "b3f8":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WalletMultiButton_vue_vue_type_style_index_0_id_08507aee_prod_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("4490");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WalletMultiButton_vue_vue_type_style_index_0_id_08507aee_prod_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WalletMultiButton_vue_vue_type_style_index_0_id_08507aee_prod_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
 
 
 /***/ }),
@@ -2422,21 +2028,6 @@ module.exports = Object.keys || function keys(O) {
 
 /***/ }),
 
-/***/ "e1c6":
-/***/ (function(module, exports, __webpack_require__) {
-
-// Imports
-var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("24fb");
-exports = ___CSS_LOADER_API_IMPORT___(false);
-exports.push([module.i, "@import url(https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap);"]);
-// Module
-exports.push([module.i, ":root{--swv-button-background-color:#4f46e5;--swv-button-text-color:#fff;--swv-button-outline-color:#3730a3;--swv-button-hover-background-color:#4338ca;--swv-button-disabled-background-color:#475569;--swv-button-disabled-text-color:#94a3b8;--swv-overlay-background-color:hsla(0,0%,78.4%,0.8);--swv-modal-background-color:#fff;--swv-modal-text-color:#1f2937;--swv-modal-close-button-background-color:#f3f4f6;--swv-modal-close-button-text-color:#9ca3af;--swv-modal-close-button-hover-text-color:#374151;--swv-modal-button-text-color:#1f2937;--swv-modal-button-hover-background-color:#f3f4f6;--swv-modal-button-outline-color:var(--swv-button-outline-color);--swv-dropdown-background-color:#fff;--swv-dropdown-item-hover-background-color:#f3f4f6;--swv-dropdown-text-color:#1f2937;--swm-modal-shadow:0 25px 25px rgba(0,0,0,0.15);--swm-dropdown-shadow:0px 10px 20px rgba(0,0,0,0.3);--swv-button-radius:6px;--swv-modal-radius:10px;--swv-dropdown-radius:10px;--swv-dropdown-item-radius:6px}.swv-dark{--swv-overlay-background-color:rgba(0,0,0,0.7);--swv-modal-background-color:#1e293b;--swv-modal-text-color:#fff;--swv-modal-close-button-background-color:#0f172a;--swv-modal-close-button-text-color:#64748b;--swv-modal-close-button-hover-text-color:#fff;--swv-modal-button-text-color:#fff;--swv-modal-button-hover-background-color:#0f172a;--swv-modal-button-outline-color:#fff;--swv-dropdown-background-color:#1e293b;--swv-dropdown-item-hover-background-color:#334155;--swv-dropdown-text-color:#fff;--swm-modal-shadow:0px 8px 20px rgba(0,0,0,0.6)}.swv-button{background-color:transparent;border:none;color:var(--swv-button-text-color);cursor:pointer;display:flex;align-items:center;font-family:DM Sans,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;font-size:16px;font-weight:600;height:48px;line-height:48px;padding:0 24px;border-radius:var(--swv-button-radius)}.swv-button>*+*{margin-left:12px}.swv-button-trigger{background-color:var(--swv-button-background-color)}.swv-button:not([disabled]):focus-visible{outline-color:var(--swv-button-outline-color)}.swv-button:not([disabled]):hover{background-color:var(--swv-button-hover-background-color)}.swv-button[disabled]{background:var(--swv-button-disabled-background-color);color:var(--swv-button-disabled-text-color);cursor:not-allowed}.swv-button-icon,.swv-button-icon img{display:flex;align-items:center;justify-content:center;width:24px;height:24px}.swv-dropdown{position:relative;display:inline-block}.swv-dropdown-list{position:absolute;z-index:99;display:grid;grid-template-rows:1fr;grid-row-gap:10px;padding:10px;top:100%;right:0;margin:0;list-style:none;background:var(--swv-dropdown-background-color);color:var(--swv-dropdown-text-color);border-radius:var(--swv-dropdown-radius);box-shadow:var(--swm-dropdown-shadow);opacity:0;visibility:hidden;transition:opacity .2s ease,transform .2s ease,visibility .2s;font-family:DM Sans,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif}.swv-dropdown-list-active{opacity:1;visibility:visible;transform:translateY(10px)}.swv-dropdown-list-item{display:flex;flex-direction:row;justify-content:center;align-items:center;border:none;outline:none;cursor:pointer;white-space:nowrap;box-sizing:border-box;padding:0 20px;width:100%;border-radius:var(--swv-dropdown-item-radius);font-size:14px;font-weight:500;height:37px}.swv-dropdown-list-item:not([disabled]):hover{background-color:var(--swv-dropdown-item-hover-background-color)}.swv-modal-collapse-button{justify-content:space-between;border-radius:0 0 var(--swv-modal-radius) var(--swv-modal-radius)}.swv-modal-collapse-button svg{transition:transform .15s ease-in;align-self:center;fill:#999}.swv-modal-collapse-button.swv-modal-collapse-button-active svg{transform:rotate(180deg)}.swv-modal{position:fixed;top:0;left:0;right:0;bottom:0;opacity:1;transition:opacity .15s linear;z-index:1040;overflow-y:auto}.swv-modal-logo-wrapper{padding:60px;padding-bottom:0}.swv-modal-logo{max-width:100%;max-height:100px}.swv-modal-button-close{display:flex;align-items:center;justify-content:center;position:absolute;top:18px;right:18px;padding:12px;cursor:pointer;background:var(--swv-modal-close-button-background-color);color:var(--swv-modal-close-button-text-color);border:none;border-radius:50%}.swv-modal-button-close:hover{color:var(--swv-modal-close-button-hover-text-color)}.swv-modal-button-close:focus-visible{outline-color:var(--swv-modal-button-outline-color)}.swv-modal-button-close svg{fill:currentColor;transition:fill .2s ease 0s}.swv-modal-overlay{background:var(--swv-overlay-background-color);position:fixed;top:0;left:0;bottom:0;right:0}.swv-modal-container{display:flex;margin:3rem;min-height:calc(100vh - 6rem);align-items:center;justify-content:center}@media (max-width:480px){.swv-modal-container{margin:1rem;min-height:calc(100vh - 2rem)}}.swv-modal-wrapper{box-sizing:border-box;position:relative;display:flex;align-items:center;flex-direction:column;z-index:1050;max-width:400px;border-radius:var(--swv-modal-radius);background:var(--swv-modal-background-color);color:var(--swv-modal-text-color);box-shadow:var(--swm-modal-shadow);font-family:DM Sans,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;flex:1}.swv-modal-wrapper .swv-button{width:100%;color:var(--swv-modal-button-text-color)}.swv-modal-wrapper .swv-button:not([disabled]):hover{background:var(--swv-modal-button-hover-background-color)}.swv-modal-wrapper .swv-button:not([disabled]):focus-visible{outline-color:var(--swv-modal-button-outline-color)}.swv-modal-title{font-weight:500;font-size:24px;line-height:36px;margin:0;padding:30px 60px;text-align:center}@media (max-width:374px){.swv-modal-title{font-size:18px}}.swv-modal-list{margin:0 0 12px 0;padding:0;width:100%;list-style:none}.swv-modal-list .swv-button{font-weight:400;border-radius:0;font-size:18px;justify-content:space-between}.swv-modal-list .swv-button-icon,.swv-modal-list .swv-button-icon img{width:28px;height:28px}", ""]);
-// Exports
-module.exports = exports;
-
-
-/***/ }),
-
 /***/ "e330":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2496,12 +2087,18 @@ module.exports = function (key) {
 
 /***/ }),
 
-/***/ "fb15":
+/***/ "fae3":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "WalletConnectButton", function() { return /* reexport */ WalletConnectButton; });
+__webpack_require__.d(__webpack_exports__, "WalletModalProvider", function() { return /* reexport */ WalletModalProvider; });
+__webpack_require__.d(__webpack_exports__, "WalletIcon", function() { return /* reexport */ WalletIcon; });
+__webpack_require__.d(__webpack_exports__, "WalletMultiButton", function() { return /* reexport */ WalletMultiButton; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -3310,8 +2907,8 @@ var WalletModalProvider_component = normalizeComponent(
 )
 
 /* harmony default export */ var WalletModalProvider = (WalletModalProvider_component.exports);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4a0d768a-vue-loader-template"}!./node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WalletMultiButton.vue?vue&type=template&id=08507aee&
-var WalletMultiButtonvue_type_template_id_08507aee_render = function render() {
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4a0d768a-vue-loader-template"}!./node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WalletMultiButton.vue?vue&type=template&id=c888f4ae&
+var WalletMultiButtonvue_type_template_id_c888f4ae_render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
@@ -3428,9 +3025,9 @@ var WalletMultiButtonvue_type_template_id_08507aee_render = function render() {
   })], 1);
 };
 
-var WalletMultiButtonvue_type_template_id_08507aee_staticRenderFns = [];
+var WalletMultiButtonvue_type_template_id_c888f4ae_staticRenderFns = [];
 
-// CONCATENATED MODULE: ./src/components/WalletMultiButton.vue?vue&type=template&id=08507aee&
+// CONCATENATED MODULE: ./src/components/WalletMultiButton.vue?vue&type=template&id=c888f4ae&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.includes.js
 var es_array_includes = __webpack_require__("caad");
@@ -4066,11 +3663,7 @@ class WalletStore_WalletStore {
 });
 // CONCATENATED MODULE: ./src/components/WalletMultiButton.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_WalletMultiButtonvue_type_script_lang_js_ = (WalletMultiButtonvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/WalletMultiButton.vue?vue&type=style&index=0&id=08507aee&prod&lang=css&
-var WalletMultiButtonvue_type_style_index_0_id_08507aee_prod_lang_css_ = __webpack_require__("b3f8");
-
 // CONCATENATED MODULE: ./src/components/WalletMultiButton.vue
-
 
 
 
@@ -4080,8 +3673,8 @@ var WalletMultiButtonvue_type_style_index_0_id_08507aee_prod_lang_css_ = __webpa
 
 var WalletMultiButton_component = normalizeComponent(
   components_WalletMultiButtonvue_type_script_lang_js_,
-  WalletMultiButtonvue_type_template_id_08507aee_render,
-  WalletMultiButtonvue_type_template_id_08507aee_staticRenderFns,
+  WalletMultiButtonvue_type_template_id_c888f4ae_render,
+  WalletMultiButtonvue_type_template_id_c888f4ae_staticRenderFns,
   false,
   null,
   null,
@@ -4095,16 +3688,9 @@ var WalletMultiButton_component = normalizeComponent(
 
 
 
-/* harmony default export */ var library = ({
-  WalletConnectButton: WalletConnectButton,
-  WalletModalProvider: WalletModalProvider,
-  WalletIcon: WalletIcon,
-  WalletMultiButton: WalletMultiButton
-});
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
 
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 
-/* harmony default export */ var entry_lib = __webpack_exports__["default"] = (library);
 
 
 

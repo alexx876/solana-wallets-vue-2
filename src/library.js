@@ -3,7 +3,7 @@ import WalletModalProvider from './components/WalletModalProvider'
 import WalletIcon from './components/WalletIcon'
 import WalletMultiButton from './components/WalletMultiButton'
 
-export default {
+export {
     WalletConnectButton,
     WalletModalProvider,
     WalletIcon,
