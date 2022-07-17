@@ -49,7 +49,7 @@ import {
 } from '@solana/wallet-adapter-wallets";
 
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'  
-import { WalletMultiButton } from 'solana-wallets-vue-2"
+import { WalletMultiButton } from 'solana-wallets-vue-2'
 import 'solana-wallets-vue-2/styles.css';
 
 export default {
