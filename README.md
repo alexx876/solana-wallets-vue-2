@@ -8,11 +8,17 @@ Integrates Solana wallets in your Vue 2 applications.
 
 ## Installation
 
-To get started, you'll need to install the `solana-wallets-vue` npm package as well as the wallets adapters provided by Solana.
-
+To get started, you'll need to install the `solana-wallets-vue-2` npm package as well as the wallets adapters provided by Solana.
+#### npm
 ```shell  
-npm install solana-wallets-vue @solana/wallet-adapter-wallets```  
-  
+npm install solana-wallets-vue-2 @solana/wallet-adapter-wallets
+```  
+
+#### yarn
+```shell  
+yarn add solana-wallets-vue-2 @solana/wallet-adapter-wallets
+```  
+
 ## Setup  
 Next, you can install Solana Wallets Vue use as local or global component.  
 You have to set up Solana Wallets Adapters and prop it to the component instance.  
