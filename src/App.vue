@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ dark: dark }">
     <div class="gh-link">
       <a href="https://github.com/alexx876/solana-wallets-vue-2" target="_blank"
          aria-label="View source on GitHub">
@@ -17,8 +17,9 @@
     </div>
     <div class="vue-logo">
       <div>Solana Wallets Vue 2</div>
+      <button @click="dark = !dark" class="btn">Toggle mode</button>
     </div>
-    <wallet-multi-button :wallets="wallets" auto-connect></wallet-multi-button>
+    <wallet-multi-button :wallets="wallets" :dark="dark" auto-connect></wallet-multi-button>
   </div>
 </template>
 
@@ -38,9 +39,10 @@ const network = WalletAdapterNetwork.Devnet
 
 export default {
   name: 'App',
-  components: {WalletMultiButton},
+  components: { WalletMultiButton },
   data() {
     return {
+      dark: false,
       wallets: [
         new CoinbaseWalletAdapter(),
         new PhantomWalletAdapter(),
@@ -60,11 +62,6 @@ html, body, #app {
   margin: 0;
   padding: 0;
 }
-.calculator-icon {
-  display: flex;
-  margin: auto;
-  cursor: pointer;
-}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -73,6 +70,27 @@ html, body, #app {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .btn {
+    margin-bottom: 10px;
+    background: #fffbda;
+    padding: 10px 23px;
+    color: black;
+    border-radius: 10px;
+    border: 0;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  &.dark {
+    background-color: rgb(17 24 39);
+    color: white;
+
+    .btn {
+      color: #ffffff;
+      background: #3e3e3e;
+    }
+  }
   .gh-link {
     align-self: flex-end;
     position: sticky;
@@ -89,33 +107,6 @@ html, body, #app {
       font-weight: bolder;
       font-size: 2rem;
       padding: 1rem 0;
-    }
-  }
-  .preview-block {
-    padding: 1rem;
-    background-color: #e6e6e6;
-    min-width: 300px;
-    max-width: 400px;
-    & > .input-label {
-      font-weight: bold;
-      color: #2c3e50;
-      margin: 7px 0 5px 0;
-    }
-    .sample {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: row;
-      background-color: white;
-      padding: 3px;
-      & > input {
-        max-width: 200px;
-        height: 40px;
-        text-align: right;
-        font-size: 34px;
-        color: #2c3e50;
-        border: none;
-      }
     }
   }
 }

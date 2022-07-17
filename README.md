@@ -1,179 +1,91 @@
-# Solana Wallets Vue
-Integrates Solana wallets in your Vue 3 applications.
 
-⚡️ [View demo](https://solana-wallets-vue-demo.netlify.app/) / [Browse demo code](./example)
+# Solana Wallets Vue 2
+Integrates Solana wallets in your Vue 2 applications.
 
-<img width="1230" alt="solana-wallets-vue" src="https://user-images.githubusercontent.com/3642397/152684955-079b4505-a7bb-4be7-976b-a0a5a59acf92.png">
+⚡️ [View demo](https://solana-wallets-vue-2.netlify.app/)
+
+<img width="1230" alt="solana-wallets-vue" src="https://user-images.githubusercontent.com/3642397/152684955-079b4505-a7bb-4be7-976b-a0a5a59acf92.png">  
 
 ## Installation
 
 To get started, you'll need to install the `solana-wallets-vue` npm package as well as the wallets adapters provided by Solana.
 
-```shell
-npm install solana-wallets-vue @solana/wallet-adapter-wallets
-```
+```shell  
+npm install solana-wallets-vue @solana/wallet-adapter-wallets```  
+  
+## Setup  
+Next, you can install Solana Wallets Vue use as local or global component.  
+You have to set up Solana Wallets Adapters and prop it to the component instance.  
+#### To register as global component:  
+  
+```js  
+import { WalletMultiButton } from "solana-wallets-vue-2";  
+Vue.component('wallet-multi-button', WalletMultiButton);  
+```  
+#### To use as a local component:
 
-## Setup
-
-Next, you can install Solana Wallets Vue as a plugin like so.
-
-```js
-import { createApp } from 'vue';
-import App from './App.vue';
-import SolanaWallets from 'solana-wallets-vue';
-
-// You can either import the default styles or create your own.
-import 'solana-wallets-vue/styles.css';
-
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base"
-
-import {
-  PhantomWalletAdapter,
-  SlopeWalletAdapter,
-  SolflareWalletAdapter,
-} from '@solana/wallet-adapter-wallets';
-
-const walletOptions = {
-  wallets: [
-    new PhantomWalletAdapter(),
-    new SlopeWalletAdapter(),
-    new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
-  ],
-  autoConnect: true,
-}
-
-createApp(App)
-  .use(SolanaWallets, walletOptions)
-  .mount('#app');
-```
-
-This will initialise the wallet store and create a new `$wallet` global property that you can access inside any component.
-
-Note that you can also initialise the wallet store manually using the `initWallet` method like so.
-
-```js
-import { initWallet } from 'solana-wallets-vue';
-initWallet(walletOptions);
-```
-
-Finally, import and render the `WalletMultiButton` component to allow users to select a wallet et connect to it.
-
-```vue
-<script setup>
-import { WalletMultiButton } from 'solana-wallets-vue'
-</script>
-
-<template>
-  <wallet-multi-button></wallet-multi-button>
-</template>
-```
+```vue  
+<template>  
+ <div> <wallet-multi-button :wallets="wallets" auto-connect /> </div></template>  
+  
+<script>  
+import {  
+ CoinbaseWalletAdapter, GlowWalletAdapter, PhantomWalletAdapter, SlopeWalletAdapter, SolflareWalletAdapter, TorusWalletAdapter} from '@solana/wallet-adapter-wallets'  
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'  
+  import { WalletMultiButton } from "solana-wallets-vue-2";  
+  export default {  
+ name: 'component.vue', components: { WalletMultiButton }, data() { return { wallets: [ new CoinbaseWalletAdapter(), new PhantomWalletAdapter(), new GlowWalletAdapter(), new SlopeWalletAdapter(), new SolflareWalletAdapter({ WalletAdapterNetwork.Devnet }), new TorusWalletAdapter() ], } }}  
+</script>  
+```  
 
 If you prefer the dark mode, simply provide the `dark` boolean props to the component above.
 
-```html
-<wallet-multi-button dark></wallet-multi-button>
-```
+```html  
+<wallet-multi-button :wallets="wallets" dark></wallet-multi-button>  
+```  
+
+### Parameters
+| Props(Parameter) | Type | Default | Description |
+| - | - | - |  - |  
+| `wallets` | `Array` | `[]` | The wallets available the use. |  
+| `autoConnect` | `boolean` | `false` | Whether or not we should try to automatically connect the wallet when loading the page. |  
+| `autoConnect` | `boolean` | `false` | Whether or not we should try to automatically connect the wallet when loading the page. |  
+| `onError(error)` | `void` | `error => console.error(error)` | Will be called whenever an error occurs on the wallet selection/connection workflow. |  
+| `localStorageKey` | `string` | `walletName` | The key to use when storing the selected wallet type (e.g. `Phantom`) in the local storage. |  
+| `localStorageKey` | `string` | `walletName` | The key to use when storing the selected wallet type (e.g. `Phantom`) in the local storage. |
 
 ## Usage
+You can access the wallet store adding ref to the component instance:
 
-You can then call `useWallet()` at any time to access the wallet store — or access the `$wallet` global propery instead.
+```js  
+<wallet-multi-button ref="walletConnector" :wallets="wallets" dark></wallet-multi-button>  
+```  
+Next, you can access by call **walletStore** in ref:
 
-Here's an example of a function that sends one lamport to a random address.
+```js  
+...  
+computed: {  
+ publicKey () { return this.$refs.walletConnector.walletStore?.publicKey },}  
+```  
 
-```js
-import { useWallet } from 'solana-wallets-vue';
-import { Connection, clusterApiUrl, Keypair, SystemProgram, Transaction } from '@solana/web3.js';
-
-export const sendOneLamportToRandomAddress = () => {
-  const connection = new Connection(clusterApiUrl('devnet'))
-  const { publicKey, sendTransaction } = useWallet();
-  if (!publicKey.value) return;
-
-  const transaction = new Transaction().add(
-    SystemProgram.transfer({
-      fromPubkey: publicKey.value,
-      toPubkey: Keypair.generate().publicKey,
-      lamports: 1,
-    })
-  );
-
-  const signature = await sendTransaction(transaction, connection);
-  await connection.confirmTransaction(signature, 'processed');
-};
-```
-
-## Anchor usage
-
-If you're using Anchor, then you might want to define your own store that encapsulates `useWallet` into something that will also provide information on the current connection, provider and program.
-
-```js
-import { computed } from 'vue'
-import { useAnchorWallet } from 'solana-wallets-vue'
-import { Connection, clusterApiUrl, PublicKey } from '@solana/web3.js'
-import { Provider, Program } from '@project-serum/anchor'
-import idl from '@/idl.json'
-
-const preflightCommitment = 'processed'
-const commitment = 'confirmed'
-const programID = new PublicKey(idl.metadata.address)
-
-const workspace = null
-export const useWorkspace = () => workspace
-
-export const initWorkspace = () => {
-  const wallet = useAnchorWallet()
-  const connection = new Connection(clusterApiUrl('devnet'), commitment)
-  const provider = computed(() => new Provider(connection, wallet.value, { preflightCommitment, commitment }))
-  const program = computed(() => new Program(idl, programID, provider.value))
-
-  workspace = {
-    wallet,
-    connection,
-    provider,
-    program,
-  }
-}
-```
-
-This allows you to access the Anchor program anywhere within your application in just a few lines of code.
-
-```js
-import { useWorkspace } from './useWorkspace'
-
-const { program } = useWorkspace()
-await program.value.rpc.myInstruction(/* ... */)
-```
-
-## Configurations
-
-The table below shows all options you can provide when initialising the wallet store. Note that some options accepts `Ref` types so you can update them at runtime and keep their reactivity.
-
-| Option | Type | Description |
-| - | - | - |
-| `wallets` | `Wallet[] \| Ref<Wallet[]>` | The wallets available the use. Defaults to `[]`. |
-| `autoConnect` | `Wallet[] \| Ref<Wallet[]>` | Whether or not we should try to automatically connect the wallet when loading the page. Defaults to `false`. |
-| `onError(error: WalletError)` | `void` | Will be called whenever an error occurs on the wallet selection/connection workflow. Defaults to `error => console.error(error)`. |
-| `localStorageKey` | `string` | The key to use when storing the selected wallet type (e.g. `Phantom`) in the local storage. Defaults to `walletName`. |
-
-## `useWallet()` references
+## `walletStore` references
 
 The table below shows all the properties and methods you can get from `useWallet()`.
 
-| Property/Method | Type | Description |
-| - | - | - |
-| `wallets` | `Ref<Wallet[]>` | The wallets available the use. |
-| `autoConnect` | `Ref<boolean>` | Whether or not we should try to automatically connect the wallet when loading the page. |
-| `wallet` | `Ref<Wallet | null>` | The connected wallet. Null if not connected. |
-| `publicKey` | `Ref<PublicKey | null>` | The public key of the connected wallet. Null if not connected. |
-| `readyState` | `Ref<WalletReadyState>` | The ready state of the selected wallet. |
-| `ready` | `Ref<boolean>` | Whether the selected wallet is ready to connect. |
-| `connected` | `Ref<boolean>` | Whether a wallet has been selected and connected. |
-| `connecting` | `Ref<boolean>` | Whether we are connecting a wallet. |
-| `disconnecting` | `Ref<boolean>` | Whether we are disconnecting a wallet. |
-| `select(walletName)` | `void` | Select a given wallet. |
-| `connect()` | `Promise<void>` | Connects the selected wallet. |
-| `disconnect()` | `Promise<void>` | Disconnect the selected wallet. |
-| `sendTransaction(tx, connection, options)` | `Promise<TransactionSignature>` | Send a transation whilst adding the connected wallet as a signer. |
-| `signTransaction` | Function or undefined | Signs the given transaction. Undefined if not supported by the selected wallet. |
-| `signAllTransactions` | Function or undefined | Signs all given transactions. Undefined if not supported by the selected wallet. |
-| `signMessage` | Function or undefined | Signs the given message. Undefined if not supported by the selected wallet. |
+| Property/Method | Type | Description |  
+| - | - | - |  
+| `wallets` | `Array` | The wallets available the use. |  
+| `autoConnect` | `boolean` | Whether or not we should try to automatically connect the wallet when loading the page. |  
+| `wallet` | `Wallet | null` | The connected wallet. Null if not connected. |  
+| `publicKey` | `PublicKey | null` | The public key of the connected wallet. Null if not connected. |  
+| `readyState` | `string` | The ready state of the selected wallet. |  
+| `ready` | `boolean` | Whether the selected wallet is ready to connect. |  
+| `connected` | `boolean` | Whether a wallet has been selected and connected. |  
+| `connecting` | `boolean` | Whether we are connecting a wallet. |  
+| `disconnecting` | `boolean` | Whether we are disconnecting a wallet. |  
+| `select(walletName)` | `void` | Select a given wallet. |  
+| `connect()` | `void` | Connects the selected wallet. |  
+| `disconnect()` | `void` | Disconnect the selected wallet. |  
+| `sendTransaction(tx, connection, options)` | `Promise` | Send a transation whilst adding the connected wallet as a signer. |  
+| `signTransaction` | `Function or undefined` | Signs the given transaction. Undefined if not supported by the selected wallet. |  
+| `signAllTransactions` | `Function or undefined` | Signs all given transactions. Undefined if not supported by the selected wallet. |

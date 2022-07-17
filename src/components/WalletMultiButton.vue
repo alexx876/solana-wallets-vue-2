@@ -88,6 +88,13 @@ export default {
       type: Number,
       default: 4
     },
+    localStorageKey: {
+      type: String,
+      default: 'walletName'
+    },
+    onError: {
+      type: Function,
+    },
     dark: Boolean
   },
   data () {
@@ -118,7 +125,9 @@ export default {
   created () {
     this.walletStore = new WalletStore({
       wallets: this.wallets,
-      autoConnect: this.autoConnect
+      autoConnect: this.autoConnect,
+      localStorageKey: this.localStorageKey,
+      onError: this.onError
     })
   },
   methods: {
