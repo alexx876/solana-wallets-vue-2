@@ -4,6 +4,7 @@ export class WalletNotSelectedError extends WalletError {
   name = 'WalletNotSelectedError';
 }
 
+
 export class WalletNotInitializedError extends WalletError {
   name = 'WalletNotSelectedError';
 }
