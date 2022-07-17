@@ -1,9 +1,9 @@
 {
   "name": "solana-wallets-vue-2",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Integrates Solana wallets in your Vue 2 applications.",
   "homepage": "https://github.com/alexx876/solana-wallets-vue-2/",
-  "main": "./lib/solana-wallets-vue-2.common.js",
+  "main": "./library/solana-wallets-vue-2.common.js",
   "scripts": {
     "serve": "vue-cli-service serve --port 3000",
     "build": "vue-cli-service build --target lib --name solana-wallets-vue-2 src/library.js",
