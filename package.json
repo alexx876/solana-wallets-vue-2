@@ -1,49 +1,72 @@
 {
-  "name": "solana-wallets-vue",
-  "version": "0.4.1",
-  "description": "Solana wallet integration for Vue 3",
-  "author": "Loris Leiva",
-  "license": "MIT",
-  "files": [
-    "dist",
-    "src",
-    "styles.css",
-    "postcss.config.js"
-  ],
-  "main": "./dist/solana-wallets-vue.umd.js",
-  "module": "./dist/solana-wallets-vue.es.js",
-  "typings": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/solana-wallets-vue.es.js",
-      "require": "./dist/solana-wallets-vue.umd.js"
-    },
-    "./styles.css": "./styles.css",
-    "./postcss.config.js": "./postcss.config.js"
-  },
+  "name": "solana-wallets-vue-2",
+  "version": "0.0.1",
+  "description": "Integrates Solana wallets in your Vue 2 applications.",
+  "homepage": "https://github.com/alexx876/solana-wallets-vue-2/",
+  "main": "./lib/vue-input-calculator.common.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build && vue-tsc --emitDeclarationOnly",
-    "demo": "vite build -c vite.demo.config.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "vue-cli-service serve --port 3000",
+    "build": "vue-cli-service build --target lib --name solana-wallets-vue-2 src/library.js",
+    "predeploy": "vue-cli-service build --mode demo",
+    "lint": "vue-cli-service lint",
+    "deploy": "gh-pages -d demo"
   },
-  "dependencies": {
-    "@solana/wallet-adapter-base": "^0.9.5",
-    "vue": "^3.2.25"
-  },
+  "files": [
+    "lib",
+    "src"
+  ],
   "devDependencies": {
-    "@project-serum/anchor": "^0.20.1",
-    "@solana/wallet-adapter-wallets": "^0.16.1",
-    "@solana/web3.js": "^1.44.1",
-    "@types/node": "^17.0.14",
-    "@types/node-fetch": "^2.6.2",
-    "@vitejs/plugin-vue": "^2.0.0",
-    "@vueuse/core": "^7.5.5",
-    "typescript": "^4.5.4",
-    "vite": "^2.7.2",
-    "vue-tsc": "^0.29.8"
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "babel-eslint": "^10.1.0",
+    "core-js": "^3.6.5",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.3",
+    "vue": "^2.6.11",
+    "vue-template-compiler": "^2.6.11",
+    "gh-pages": "^4.0.0"
   },
-  "peerDependencies": {
-    "@solana/wallet-adapter-wallets": "^0.15 | ^0.16"
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "keywords": [
+    "vue",
+    "input calculator",
+    "javascript",
+    "vuejs",
+    "vue.js",
+    "input",
+    "calculator",
+    "vue component"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexx876/solana-wallets-vue-2.git"
+  },
+  "author": "Alexey Vinogradov <alexx87690@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@solana/wallet-adapter-base": "^0.9.9",
+    "@solana/wallet-adapter-wallets": "^0.16.8",
+    "body-scroll-lock": "^4.0.0-beta.0"
   }
 }
