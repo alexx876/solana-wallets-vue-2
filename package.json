@@ -1,6 +1,6 @@
 {
   "name": "solana-wallets-vue-2",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Integrates Solana wallets in your Vue 2 applications.",
   "homepage": "https://github.com/alexx876/solana-wallets-vue-2/",
   "main": "./library/solana-wallets-vue-2.common.js",

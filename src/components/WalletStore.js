@@ -186,6 +186,7 @@ export default class WalletStore {
     } finally {
       this.name = null
       this.disconnecting = false
+      localStorage.removeItem(this.localStorageKey)
     }
   }
 
