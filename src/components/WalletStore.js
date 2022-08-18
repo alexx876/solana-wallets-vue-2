@@ -142,7 +142,6 @@ export default class WalletStore {
     if (this.name === walletName) {
       return
     }
-    localStorage.setItem(this.localStorageKey, walletName)
     this.name = walletName
   }
 
@@ -164,6 +163,7 @@ export default class WalletStore {
       this.connecting = true
       await this.wallet.connect()
       this.setWallet(this.wallet)
+      localStorage.setItem(this.localStorageKey, this.name)
     } catch (error) {
       this.name = null
       throw error

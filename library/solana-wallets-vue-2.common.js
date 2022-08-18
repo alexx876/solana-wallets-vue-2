@@ -3463,7 +3463,6 @@ class WalletStore_WalletStore {
       return;
     }
 
-    localStorage.setItem(this.localStorageKey, walletName);
     this.name = walletName;
   }
 
@@ -3489,6 +3488,7 @@ class WalletStore_WalletStore {
       this.connecting = true;
       await this.wallet.connect();
       this.setWallet(this.wallet);
+      localStorage.setItem(this.localStorageKey, this.name);
     } catch (error) {
       this.name = null;
       throw error;
